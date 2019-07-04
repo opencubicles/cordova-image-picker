@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Hello World</title>
+
+    <style>
+    body { 
+    background-color:#ffffff;
+    font-size: 12px;
+    }
+
+    .dialogTitle{
+    font-size:20pt;
+    font-family:"Arial";
+    font-weight:bold;
+    color:#3b291a;
+    text-align: center;
+    }
+
+    .dialogBox {
+    position: fixed;
+    top: 30%;
+    left: 10px;
+    width: 300px;
+    height: auto;
+    background: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 6px rgba(0,0,0,.5);
+    padding:0%;
+    margin: 0px, 0px, 0px, 0px;
+    border: 1px solid #25a491;
+    }
+
+    #cpCreate {
+    text-align:center;
+    width: 100%;
+    height: 90px;
+    }
+
+    textarea.postText {
+    width:95%;
+    height: 100%;
+    border:1px solid #11826f;
+    font-family: "Arial";
+    font-size: 18px;
+    background-color : #ffffff;
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+    #cpDynamicPost {
+    position: absolute;
+    width:90%;
+    z-index: -1;
+    }
+
+    .spanText {
+    font-size: 18px;
+    font-family:"Arial";
+    word-wrap:break-word;
+    }
+
+    .alertRed{
+    font-size:3vmin;
+    font-family:"Arial";
+    font-style:italic;
+    color:#ff0000;
+    text-align: center;
+    }
+
+    .lineSpace10px {
+    width: 100%;
+    height: 10px;
+    }
+
+    .lineSpace20px {
+    width: 100%;
+    height: 20px;
+    }
+
+    .dialogLeftBtn {
+    text-align:center;
+    float: left;
+    width: 149px;
+    height: 50px;
+    line-height: 50px;
+    font-size:2em;
+    font-family:"Arial";
+    color:#ffffff;
+    box-sizing: border-box;
+    background:#25a491;
+    border-top: 1px solid #25a491;
+    border-right:1px solid #ffffff;
+    }
+
+    .dialogRightBtn {
+    text-align:center;
+    float: right;
+    width: 149px;
+    height: 50px;
+    line-height: 50px;
+    font-size:2em;
+    font-family:"Arial";
+    color:#ffffff;
+    box-sizing: border-box;
+    background:#25a491;
+    border-top: 1px solid #25a491;
+    }
+
+    .postIMGs {
+    width: 50px;
+    height: 70px;
+    float: left;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 6px rgba(0,0,0,.5);
+    padding:0%;
+    margin: 0px, 0px, 0px, 0px;
+    border: 1px solid #25a491;
+    font-size:11px;
+    text-align: center;
+    font-family:"Arial";
+    color:#000000;
+    }
+
+    .IMGs {
+    width: 50px;
+    height: 50px;
+    float: left;
+    /*box-sizing: border-box;
+    box-shadow: 4px 4px 6px rgba(0,0,0,.5);*/
+    padding:0%;
+    margin: 0px, 0px, 0px, 0px;
+
+    }
+    .remove {
+    width: 50px;
+    height: 20px;
+    float: left;
+    padding:0%;
+    font-size:20px;
+    background: green;
+
+    }
+
+    .postIMGspace {
+    width: 8px;
+    height: 50px;
+    float: left;
+    }
+
+    #cpImages {
+    height: 70px;
+    }
+
+    </style>
+
+</head>
+
+<body>
+   <div class="app">
+            <div id="deviceready" class="">
+                <p class="event listening ">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+                <!-- <button id = "cameraTakePicture">TAKE PICTURE</button> -->
+                <!-- <div>
+
+                    <img name="imgView"  height="10px" >
+                    <img name="imgView"  height="10px" >
+                    <img name="imgView"  height="10px" >
+                    <img name="imgView"  height="10px" >
+                    <img name="imgView"  height="10px" >
+                    
+                </div> -->
+
+
+                <div id="createPost" class="dialogBox">
+                   <div class="lineSpace10px"></div>
+                   <div id="cpLabel" class="dialogTitle">Post your comment</div>
+                   <div class="lineSpace10px"></div>
+                   <div id="cpCreate"><textarea id="txtNewPostID" name="txtNewPost" class="postText"  maxlength="365"></textarea></div>
+                   <div id="cpDynamicPost"><span id="postLength" class="spanText"></span></div>
+                   <div id="cpError" align="center" class="alertRed"></div>
+                   <div class="lineSpace10px"></div>
+                   <div class="lineSpace10px"></div>
+                   <div id="cameraTakePicture" align="center">SELECT Images</div>
+                   <div class="lineSpace10px"></div>
+                   <div id="uploadStatus"></div>
+                   <div class="lineSpace10px"></div>
+                   <div id="cpImages">
+                       
+                      
+                   </div>
+                   <div class="lineSpace20px"></div>
+                   <div class="dialogLeftBtn" >Cancel</div>
+                   <div class="dialogRightBtn" onClick = "uploadData()">Post</div>
+                </div>
+
+
+
+                
+            </div>
+            
+        </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>
