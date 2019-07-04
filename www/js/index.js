@@ -100,7 +100,7 @@ function renderThumbnailUI() {
     for (var i = 0; i < images_to_upload.length; i++) {
        var curImg = images_to_upload[i];
 
-        thumbnailHtml += '<div class="postIMGspace"></div><div class = "postIMGs"><img id="postIMG'+i+'" src = "'+  'data:image/jpeg;base64,' + curImg.thumbnailBase64 +'" name="postIMGs"  class="IMGs"/><button class="remove" data-id="'+i+'" id = "'+i+'" onClick="RemovePicture(this)">&times</button></div>';
+        thumbnailHtml += "hello" + curImg.thumbnailBase64 + 'hello<div class="postIMGspace"></div><div class = "postIMGs"><img id="postIMG'+i+'" src = "'+  'data:image/jpeg;base64,' + curImg.thumbnailBase64 +'" name="postIMGs"  class="IMGs"/><button class="remove" data-id="'+i+'" id = "'+i+'" onClick="RemovePicture(this)">&times</button></div>';
 
     }
     for (var j = images_to_upload.length ; j < 5 ; j++){
