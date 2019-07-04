@@ -26,7 +26,7 @@ Minimum SDK version supported on the target device. Maximum version is blank by 
 
 This template sets the minimum to `14`.
 
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="16" />
 
 #### &lt;access ...&gt; (All)
 
